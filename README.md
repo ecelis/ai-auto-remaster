@@ -71,6 +71,131 @@ Use a video editor (or ffmpeg) to combine the Upscaled Video, Enhanced Audio, an
 
 
 ---
+```bash
+```
+
+### 2. The Setup Script (`setup_env.sh`)
+This ensures the user has the necessary tools.
+
+```bash
+#!/bin/bash
+
+# setup_env.sh
+# Installs dependencies for the media restoration pipeline
+
+echo "--- Checking System Dependencies ---"
+
+# Check for FFmpeg
+if ! command -v ffmpeg &> /dev/null; then
+    echo "FFmpeg not found. Installing..."
+    sudo apt-get update && sudo apt-get install -y ffmpeg python3-pip python3-venv git
+else
+    echo "✅ FFmpeg is installed."
+fi
+
+# Check for Python/Pip
+if ! command -v pip3 &> /dev/null; then
+    echo "Pip not found. Installing..."
+    sudo apt-get install -y python3-pip
+fi
+
+echo "--- Setting up Python Environment for Whisper ---"
+
+# Create a virtual environment to avoid system conflicts
+if [ ! -d "venv" ]; then
+    python3 -m venv venv
+fi
+
+# Activate environment and install OpenAI Whisper
+source venv/bin/activate
+pip install -U openai-whisper
+pip install setuptools-rust
+
+echo "✅ Installation Complete."
+echo "You can now run ./process_batch.sh"
+
+### 2. The Setup Script (`setup_env.sh`)
+This ensures the user has the necessary tools.
+
+```bash
+#!/bin/bash
+
+# setup_env.sh
+# Installs dependencies for the media restoration pipeline
+
+echo "--- Checking System Dependencies ---"
+
+# Check for FFmpeg
+if ! command -v ffmpeg &> /dev/null; then
+    echo "FFmpeg not found. Installing..."
+    sudo apt-get update && sudo apt-get install -y ffmpeg python3-pip python3-venv git
+else
+    echo "✅ FFmpeg is installed."
+fi
+
+# Check for Python/Pip
+if ! command -v pip3 &> /dev/null; then
+    echo "Pip not found. Installing..."
+    sudo apt-get install -y python3-pip
+fi
+
+echo "--- Setting up Python Environment for Whisper ---"
+
+# Create a virtual environment to avoid system conflicts
+if [ ! -d "venv" ]; then
+    python3 -m venv venv
+fi
+
+# Activate environment and install OpenAI Whisper
+source venv/bin/activate
+pip install -U openai-whisper
+pip install setuptools-rust
+
+echo "✅ Installation Complete."
+echo "You can now run ./process_batch.sh"--
+---
+
+### 2. The Setup Script (`setup_env.sh`)
+This ensures the user has the necessary tools.
+
+```bash
+#!/bin/bash
+
+# setup_env.sh
+# Installs dependencies for the media restoration pipeline
+
+echo "--- Checking System Dependencies ---"
+
+# Check for FFmpeg
+if ! command -v ffmpeg &> /dev/null; then
+    echo "FFmpeg not found. Installing..."
+    sudo apt-get update && sudo apt-get install -y ffmpeg python3-pip python3-venv git
+else
+    echo "✅ FFmpeg is installed."
+fi
+
+# Check for Python/Pip
+if ! command -v pip3 &> /dev/null; then
+    echo "Pip not found. Installing..."
+    sudo apt-get install -y python3-pip
+fi
+
+echo "--- Setting up Python Environment for Whisper ---"
+
+# Create a virtual environment to avoid system conflicts
+if [ ! -d "venv" ]; then
+    python3 -m venv venv
+fi
+
+# Activate environment and install OpenAI Whisper
+source venv/bin/activate
+pip install -U openai-whisper
+pip install setuptools-rust
+
+echo "✅ Installation Complete."
+echo "You can now run ./process_batch.sh"
+```
+
 
 ### 2. The Setup Script (`setup_env.sh`)
 This ensures the user has the necessary tools.
