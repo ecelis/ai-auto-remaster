@@ -6,3 +6,8 @@ venv
 *.wav
 *.mp3
 *.srt
+*.jpeg
+*.jpg
+*.png
+work
+.vscode
