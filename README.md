@@ -35,8 +35,8 @@ Bash
 
 Output: You will find a processed/ folder containing:
 
-- video_clean.mp4: The modernized video file.
-- audio_track.mp3: Isolated audio.
+- video.mp4: The modernized video file.
+- audio.mp3: Isolated audio.
 - subtitles.srt: English subtitles synchronized to the video.
 
 🎨 The AI Remastering Guide (Post-Processing)
@@ -52,7 +52,8 @@ Create a folder for your images first (e.g., `original_frames`) to keep things o
 Run this command in your terminal:
 
 ```bash
-ffmpeg -i input_movie.mp4 -q:v 2 original_frames/frame_%04d.jpg
+mkdir -vp input_files/processed/original_frames
+ffmpeg -i input_files/processed/video.mp4 -q:v 2 input_files/processed/original_frames/frame_%04d.jpg
 ```
 
 -i input_movie.mp4: Your source video.
@@ -100,3 +101,14 @@ Tool: Google Gemini Advanced.
 Phase 4: Final Assembly
 
 Use a video editor (or ffmpeg) to combine the Upscaled Video, Enhanced Audio, and Subtitles into one final master file.
+
+## NOtes
+
+Run time
+
+```
+
+real    3m43.415s
+user    14m28.106s
+sys     0m13.158s
+```

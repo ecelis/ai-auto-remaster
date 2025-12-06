@@ -1,2 +1,4 @@
 openai-whisper
 setuptools-rust
+google-genai
+pillow
