@@ -67,7 +67,7 @@ frame\_%04d.jpg: Creates filenames like frame_0001.jpg, frame_0002.jpg. The %04d
 Once you have your folder of upscaled images, use FFmpeg to combine them back into a video file.
 
 ```bash
-ffmpeg -framerate 30 -i upscaled_frames/frame_%04d.jpg -c:v libx264 -pix_fmt yuv420p upscaled_movie_silent.mp4
+ffmpeg -framerate 30 -pattern_type glob -i 'input_files/processed/upscaled_frames_PalmillasTierrasAridas/frame_*.jpg' -c:v libx264 -pix_fmt yuv420p upscaled_movie_silent.mp4
 ```
 
 -framerate 30: Important: Replace 30 with the framerate of your original video. If you don't know it, check the original file first.
@@ -111,4 +111,8 @@ Run time
 real    3m43.415s
 user    14m28.106s
 sys     0m13.158s
+
+real    41m9.262s
+user    0m24.780s
+sys     0m1.592s
 ```
