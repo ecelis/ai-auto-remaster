@@ -70,6 +70,10 @@ Once you have your folder of upscaled images, use FFmpeg to combine them back in
 ffmpeg -framerate 30 -pattern_type glob -i 'input_files/processed/upscaled_frames_PalmillasTierrasAridas/frame_*.jpg' -c:v libx264 -pix_fmt yuv420p upscaled_movie_silent.mp4
 ```
 
+```bash
+ffmpeg -i upscaled_movie_silent.mp4 -vf "deflicker=mode=pm:size=10,minterpolate=mi_mode=mci:mc_mode=aobmc:me_mode=bidir:mb_size=16" -c:v libx264 -crf 18 smooth_output.mp4
+```
+
 -framerate 30: Important: Replace 30 with the framerate of your original video. If you don't know it, check the original file first.
 
 -i ...: The pattern of your upscaled images. If the upscaler changed the extension to PNG, change .jpg to .png here.
@@ -77,6 +81,28 @@ ffmpeg -framerate 30 -pattern_type glob -i 'input_files/processed/upscaled_frame
 -c:v libx264: Encodes the video using the standard H.264 codec (widely compatible).
 
 -pix_fmt yuv420p: Ensures the video works on all media players (QuickTime, Windows Media Player, etc.).
+
+Get a sample to compare.
+
+```bash
+ffmpeg -i input.asf -vf "trim=start_frame=1130:end_frame=1370,setpts=PTS-STARTPTS" -an -c:v libx264 -crf 0 output_snippet.mp4
+```
+
+trim=start_frame=1130:end_frame=1370: Keeps frames starting at 1130 and stops before 1370 (so it includes 1369).
+
+setpts=PTS-STARTPTS: Resets the timestamp to 0. Without this, your player might show a black screen for the first ~40 seconds until it reaches the cut point.
+
+-an: Removes audio.
+
+-crf 0: Sets the encoding to Lossless. This is crucial for your upscaling workflow so you don't introduce new compression artifacts before the AI sees it.
+
+```bash
+ffmpeg -i input.asf -vf "trim=start_frame=1130:end_frame=1370,setpts=PTS-STARTPTS" -q:v 2 frames/frame_%04d.jpg
+```
+
+This will create images numbered frame_0001.jpg, frame_0002.jpg, etc., but they will actually be the content of frames 1130–1369 from the original video.
+
+Note: If you want the filenames to match the original frame numbers (e.g., frame_1130.jpg), it is much harder to do in FFmpeg directly. It is usually easier to use the command above and then treat 0001 as your "start" for that batch.
 
 Phase 2: Audio Restoration
 
@@ -116,3 +142,7 @@ real    41m9.262s
 user    0m24.780s
 sys     0m1.592s
 ```
+
+Video-to-Video (Vid2Vid): Models like Stable Video Diffusion (SVD) or AnimateDiff take a video as input, not just images. They look at 10-20 frames at once to ensure the nose doesn't change shape.
+
+Specialized Tools: Topaz Video AI or TensorPix use "Optical Flow" to track pixels over time. They don't "hallucinate" new details as much as "enhance" existing ones, resulting in 100% stable video.
